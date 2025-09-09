@@ -10,7 +10,7 @@ class Category(models.Model):
     slug = models.SlugField(max_length=120, unique=True);
 
     class Meta:
-        verbos_name_plural = "Categories";
+        verbose_name_plural = "Categories";
     
     def save(self, *args, **kwargs):
         if not self.slug: #auto generate slug.
@@ -54,7 +54,7 @@ class Order(models.Model):
     def get_total_cost(self):
         return sum(item.get_total_price() for item in self.items.all())
 
-class OrderIterm(models.Model):
+class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)

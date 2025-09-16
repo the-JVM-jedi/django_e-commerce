@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mini Shop</title>
+</head>
+<body>
+  <nav>
+    <a href="{% url 'store:product_list' %}">Home</a> |
+    <a href="/admin/">Admin</a>
+  </nav>
+  <hr>
+  {% block content %}{% endblock %}
+</body>
+</html>

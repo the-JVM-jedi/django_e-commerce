@@ -66,3 +66,23 @@ class OrderItem(models.Model):
         return f"{self.quantity} × {self.product.name}"
 
 #Cart to be added later as an additional feature
+class Cart(models.Model):
+    user = models.OneToOneField(User, related_name="cart", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_total(self):
+        return sum(item.get_total_price() for item in self.items.all())
+    def __str__(self):
+        return f"Cart of {self.user.username}"
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name="items", on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, related_name="cart_items", on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+
+    def get_total_price(self):
+        return self.quantity * self.product.price
+    
+    def __str__(self):
+        return f"{self.quantity} x {self.product.name}"

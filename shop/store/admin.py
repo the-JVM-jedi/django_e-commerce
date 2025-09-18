@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Order, OrderItem
+from .models import Category, Product, Order, OrderItem, Cart, CartItem
 
 # Register your models here.
 
@@ -40,6 +40,20 @@ class OrderAdmin(admin.ModelAdmin):
 class OrderItem(admin.ModelAdmin):
     list_display = ('order', 'quantity', 'price', 'get_total_price')
 
+    def get_total_price(self, obj):
+        return obj.get_total_price()
+    get_total_price.short_description = "Subtotal"
+
+@admin.register(Cart)
+class CartAdmin(admin.ModelAdmin):
+    list_display = ("user", "created_at", "get_total")
+    def get_total(self, obj):
+        return obj.get_total()
+    get_total.short_description = "Cart Total"
+
+@admin.register(CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    list_display = ("cart", "product", "quantity", "get_total_price")
     def get_total_price(self, obj):
         return obj.get_total_price()
     get_total_price.short_description = "Subtotal"
